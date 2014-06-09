@@ -31,7 +31,7 @@ startServer port dir = run port app
       in
         func $ responseFile status200 [] path Nothing
 
-startBrowser port = fmap (const ()) $ rawSystem "./barobobrowser" [url]
+startBrowser port = fmap (const ()) $ rawSystem "./barobobrowser.exe" [url]
   where url = "http://localhost:" ++ show port ++ "/index.html"
 
 main = do

@@ -4,3 +4,6 @@
    previous cabal still lives in haskell package directory in C:/Program Files.
    Modify bashrc path(s) to point to local cabal
 3. Install warp, "cabal install warp"
+4. Check out LinkbotLabs Suite
+5. cabal sandbox init
+6. cabal install -j

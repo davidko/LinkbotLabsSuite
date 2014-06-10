@@ -1,5 +1,5 @@
 import Network.Wai
-import Network.Wai.Handler.Warp
+import qualified Network.Wai.Handler.Warp as Warp
 import Network.HTTP.Types.Status
 import System.FilePath ((</>))
 import Control.Concurrent
@@ -13,17 +13,17 @@ linkbotLabs directory = do
   browserThread <- forkIO $ startBrowser port
   yield
 
-forkServer :: FilePath -> IO (Port, ThreadId)
+forkServer :: FilePath -> IO (Warp.Port, ThreadId)
 forkServer dir = do
   port <- choosePort
   threadId <- forkIO $ startServer port dir
   return (port, threadId)
 
-choosePort :: IO Port
+choosePort :: IO Warp.Port
 choosePort = return 3000
 
-startServer :: Port -> FilePath -> IO ()
-startServer port dir = run port app
+startServer :: Warp.Port -> FilePath -> IO ()
+startServer port dir = Warp.run port app
   where
     app :: Application -- aka Request -> (Reponse -> IO ReponseReceived) -> IO ResponseReceived
     app req func =

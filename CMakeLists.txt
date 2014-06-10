@@ -14,9 +14,12 @@ message(STATUS "Found cabal at ${CABAL}")
 
 set(LINKBOT_LABS_EXE_NAME "LinkbotLabs")
 set(LINKBOT_LABS_MAIN_FILE "${PROJECT_SOURCE_DIR}/launcher.hs")
+set(CFG_BROWSER_EXECUTABLE_PATH "./barobobrowser")
+set(CFG_PORT "3000")
 configure_file(Launcher.cabal.in Launcher.cabal @ONLY)
+configure_file(LauncherConfig.hs.in LauncherConfig.hs @ONLY)
 
 execute_process(COMMAND ${CABAL} sandbox init)
-add_custom_target(bblauncher ALL ${CABAL} install -j ${PROJECT_BINARY_DIR})
+add_custom_target(bblauncher ALL ${CABAL} install --extra-lib-dirs ${PROJECT_BINARY_DIR} ${PROJECT_BINARY_DIR})
 install(PROGRAMS "${PROJECT_BINARY_DIR}/.cabal-sandbox/bin/${LINKBOT_LABS_EXE_NAME}${CMAKE_EXECUTABLE_SUFFIX}" 
         DESTINATION .)

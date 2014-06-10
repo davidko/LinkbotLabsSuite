@@ -1,0 +1,7 @@
+module LauncherConfig where
+
+browser_bin_location :: FilePath
+browser_bin_location = "@CFG_BROWSER_EXECUTABLE_PATH@"
+
+port :: Int
+port = @CFG_PORT@

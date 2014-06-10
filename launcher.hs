@@ -6,6 +6,8 @@ import Control.Concurrent
 import qualified Data.Text as T
 import System.Process
 import System.Environment
+import System.Exit
+import qualified LauncherConfig as Config
 
 linkbotLabs :: FilePath -> IO ()
 linkbotLabs directory = do
@@ -20,7 +22,7 @@ forkServer dir = do
   return (port, threadId)
 
 choosePort :: IO Warp.Port
-choosePort = return 3000
+choosePort = return Config.port
 
 startServer :: Warp.Port -> FilePath -> IO ()
 startServer port dir = Warp.run port app
@@ -31,8 +33,17 @@ startServer port dir = Warp.run port app
       in
         func $ responseFile status200 [] path Nothing
 
-startBrowser port = fmap (const ()) $ rawSystem "./barobobrowser.exe" [url]
+startBrowser port = do
+    exitCode <- rawSystem Config.browser_bin_location [url]
+    if exitCode == ExitSuccess 
+        then 
+            return ()
+        else 
+            putStrLn $ "Error: Could not find browser at " ++ Config.browser_bin_location
   where url = "http://localhost:" ++ show port ++ "/index.html"
+
+--fmap (const ()) $ rawSystem config.browser_bin_location [url]
+  --where url = "http://localhost:" ++ show port ++ "/index.html"
 
 main = do
     args <- getArgs

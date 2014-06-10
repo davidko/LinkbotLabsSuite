@@ -17,4 +17,4 @@ executable @LINKBOT_LABS_EXE_NAME@
   main-is:           @LINKBOT_LABS_MAIN_FILE@
   -- other-modules:       
   build-depends:       base == 4.6.* , process, text, filepath, http-types,
-                       warp, wai
+                       warp, wai, transformers, ConfigFile, mtl
